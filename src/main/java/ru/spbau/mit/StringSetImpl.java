@@ -1,13 +1,11 @@
 package ru.spbau.mit;
 
-import java.util.ArrayList;
-
 /**
  * Created by kostya on 2/21/16.
  */
 public class StringSetImpl implements StringSet{
 
-    private static int NUM_OF_SYM = 'z' - 'A' + 1;
+    private static final int NUM_OF_SYM = 'z' - 'A' + 1;
     private Node root = new Node();
 
     @Override
@@ -45,17 +43,14 @@ public class StringSetImpl implements StringSet{
         for (int i = 0; i < element.length(); i++) {
             if (currentNode.childs[element.charAt(i) - 'A'] == null) {
                 return false;
-            }
-            else {
+            } else {
                 currentNode = currentNode.childs[element.charAt(i) - 'A'];
             }
         }
         if (currentNode.endOfString) {
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -87,8 +82,7 @@ public class StringSetImpl implements StringSet{
         for (int i = 0; i < prefix.length(); i++) {
             if (currentNode.childs[prefix.charAt(i) - 'A'] == null) {
                 return 0;
-            }
-            else {
+            } else {
                 currentNode = currentNode.childs[prefix.charAt(i) - 'A'];
             }
         }
@@ -116,7 +110,7 @@ public class StringSetImpl implements StringSet{
         }
     }
 
-    private static class Node {
+    private static final class Node {
         private Node parent;
         private int size;
         private boolean endOfString;
