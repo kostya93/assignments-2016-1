@@ -17,15 +17,15 @@ public class StringSetImpl implements StringSet{
         Node currentNode = root;
 
         for (int i = 0; i < element.length(); i++) {
-            if (currentNode.childs[element.charAt(i) - 'A'] == null) {
-                currentNode.childs[element.charAt(i) - 'A'] = new Node();
-                currentNode.childs[element.charAt(i) - 'A'].parent = currentNode;
+            int ind = getIndex(element, i);
+            if (currentNode.children[ind] == null) {
+                currentNode.children[ind] = new Node(ind);
+                currentNode.children[ind].parent = currentNode;
             }
-            currentNode = currentNode.childs[element.charAt(i) - 'A'];
+            currentNode = currentNode.children[ind];
         }
 
         currentNode.endOfString = true;
-
         incSize(currentNode);
 
         return true;
@@ -33,42 +33,38 @@ public class StringSetImpl implements StringSet{
 
     @Override
     public boolean contains(String element) {
-
         if (element == null) {
             return false;
         }
 
-        Node currentNode = root;
+        Node currentNode = goDown(root, element);
 
-        for (int i = 0; i < element.length(); i++) {
-            if (currentNode.childs[element.charAt(i) - 'A'] == null) {
-                return false;
-            } else {
-                currentNode = currentNode.childs[element.charAt(i) - 'A'];
-            }
+        if (currentNode == null) {
+            return false;
         }
+
         if (currentNode.endOfString) {
             return true;
         }
+
         return false;
     }
 
     @Override
     public boolean remove(String element) {
-        if (!contains(element)) {
+        Node currentNode = goDown(root, element);
+
+        if (currentNode == null) {
             return false;
         }
 
-        Node currentNode = root;
-
-        for (int i = 0; i < element.length(); i++) {
-            currentNode = currentNode.childs[element.charAt(i) - 'A'];
+        if (currentNode.endOfString) {
+            currentNode.endOfString = false;
+            decSize(currentNode);
+            return true;
         }
 
-        currentNode.endOfString = false;
-        decSize(currentNode);
-
-        return true;
+        return false;
     }
 
     @Override
@@ -78,13 +74,9 @@ public class StringSetImpl implements StringSet{
 
     @Override
     public int howManyStartsWithPrefix(String prefix) {
-        Node currentNode = root;
-        for (int i = 0; i < prefix.length(); i++) {
-            if (currentNode.childs[prefix.charAt(i) - 'A'] == null) {
-                return 0;
-            } else {
-                currentNode = currentNode.childs[prefix.charAt(i) - 'A'];
-            }
+        Node currentNode = goDown(root, prefix);
+        if (currentNode == null) {
+            return 0;
         }
         return currentNode.size;
     }
@@ -96,28 +88,41 @@ public class StringSetImpl implements StringSet{
         }
         currentNode.size++;
     }
+
     private void decSize(Node currentNode) {
         while (currentNode != root) {
             currentNode.size--;
-            if (currentNode.size < 0) {
-                currentNode.size = 0;
+            if (currentNode.size == 0) {
+                int ind = currentNode.sym;
+                currentNode = currentNode.parent;
+                currentNode.children[ind] = null;
             }
             currentNode = currentNode.parent;
         }
         currentNode.size--;
-        if (currentNode.size < 0) {
-            currentNode.size = 0;
+    }
+
+    private Node goDown(Node currentNode, String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (currentNode.children[getIndex(str, i)] == null) {
+                return null;
+            }
+            currentNode = currentNode.children[getIndex(str, i)];
         }
+        return currentNode;
+    }
+
+    private static int getIndex (String str, int i) {
+        return str.charAt(i) - 'A';
     }
 
     private static final class Node {
+        private int sym;
         private Node parent;
         private int size;
         private boolean endOfString;
-        private Node[] childs = new Node[NUM_OF_SYM];
-
-        private Node() {
-            size = 0;
-        }
+        private Node[] children = new Node[NUM_OF_SYM];
+        private Node() {}
+        private Node(int c) { sym = c; }
     }
 }
