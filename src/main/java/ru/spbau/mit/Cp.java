@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by kostya on 3/6/16.
  */
-public class Cp {
+public final class Cp {
     private Cp(){}
     public static final int MAX_BUFF = 1024;
 
@@ -47,6 +47,5 @@ public class Cp {
         } catch (IOException e) {
             System.out.println("Problem with read or write");
         }
-
     }
 }
