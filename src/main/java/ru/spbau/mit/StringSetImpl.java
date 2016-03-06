@@ -96,8 +96,9 @@ public class StringSetImpl implements StringSet{
                 int ind = currentNode.sym;
                 currentNode = currentNode.parent;
                 currentNode.children[ind] = null;
+            } else {
+                currentNode = currentNode.parent;
             }
-            currentNode = currentNode.parent;
         }
         currentNode.size--;
     }
