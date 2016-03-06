@@ -9,7 +9,6 @@ import java.io.IOException;
  * Created by kostya on 3/6/16.
  */
 public final class Cp {
-    private Cp(){}
     public static final int MAX_BUFF = 1024;
 
     public static void main(String[] args) {
