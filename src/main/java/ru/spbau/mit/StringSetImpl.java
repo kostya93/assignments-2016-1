@@ -112,7 +112,7 @@ public class StringSetImpl implements StringSet{
         return currentNode;
     }
 
-    private static int getIndex (String str, int i) {
+    private static int getIndex(String str, int i) {
         return str.charAt(i) - 'A';
     }
 
@@ -123,6 +123,8 @@ public class StringSetImpl implements StringSet{
         private boolean endOfString;
         private Node[] children = new Node[NUM_OF_SYM];
         private Node() {}
-        private Node(int c) { sym = c; }
+        private Node(int c) {
+            sym = c;
+        }
     }
 }
