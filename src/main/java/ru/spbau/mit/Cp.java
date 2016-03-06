@@ -9,6 +9,7 @@ import java.io.IOException;
  * Created by kostya on 3/6/16.
  */
 public class Cp {
+    private Cp(){}
     public static final int MAX_BUFF = 1024;
 
     public static void main(String[] args) {
@@ -39,7 +40,6 @@ public class Cp {
 
         byte[] contents = new byte[MAX_BUFF];
         int bytesRead;
-        
         try {
             while ((bytesRead = fin.read(contents)) != -1) {
                 fout.write(contents, 0, bytesRead);
