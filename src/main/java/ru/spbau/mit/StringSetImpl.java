@@ -72,8 +72,10 @@ public class StringSetImpl implements StringSet{
     @Override
     public int howManyStartsWithPrefix(String prefix) {
         Node currentNode = goDown(root, prefix);
-        boolean flag = currentNode == null;
-        return flag ? 0 : currentNode.size;
+        if (currentNode == null) {
+            return 0;
+        }
+        return currentNode.size;
     }
 
     private Node goDown(Node currentNode, String str) {
