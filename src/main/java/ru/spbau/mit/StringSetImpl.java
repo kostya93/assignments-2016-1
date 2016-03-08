@@ -39,23 +39,13 @@ public class StringSetImpl implements StringSet{
 
         Node currentNode = goDown(root, element);
 
-        if (currentNode == null) {
-            return false;
-        }
-
-        return currentNode.endOfString;
+        return currentNode != null && currentNode.endOfString;
     }
 
     @Override
     public boolean remove(String element) {
         if (!contains(element)) {
             return false;
-        }
-
-        if (element.equals("")) {
-            root.size--;
-            root.endOfString = false;
-            return true;
         }
 
         Node currentNode = root;
@@ -82,10 +72,7 @@ public class StringSetImpl implements StringSet{
     @Override
     public int howManyStartsWithPrefix(String prefix) {
         Node currentNode = goDown(root, prefix);
-        if (currentNode == null) {
-            return 0;
-        }
-        return currentNode.size;
+        return currentNode == null ? 0 : currentNode.size;
     }
 
     private Node goDown(Node currentNode, String str) {
