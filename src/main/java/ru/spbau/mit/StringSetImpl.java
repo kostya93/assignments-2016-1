@@ -38,7 +38,7 @@ public class StringSetImpl implements StringSet{
         }
 
         Node currentNode = goDown(root, element);
-
+        
         if (currentNode == null) {
             return false;
         }
@@ -50,12 +50,6 @@ public class StringSetImpl implements StringSet{
     public boolean remove(String element) {
         if (!contains(element)) {
             return false;
-        }
-
-        if (element.equals("")) {
-            root.size--;
-            root.endOfString = false;
-            return true;
         }
 
         Node currentNode = root;
