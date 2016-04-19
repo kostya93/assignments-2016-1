@@ -1,12 +1,11 @@
 package ru.spbau.mit;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 
 public final class Injector {
+    private static Map<String, Object> instances = new HashMap<>();
     private static HashSet<String> markGlobal = new HashSet<>();
     private static String rootClass = null;
 
@@ -46,6 +45,12 @@ public final class Injector {
                     if (markGlobal.contains(className)) {
                         throw new InjectionCycleException();
                     }
+                    if (instances.containsKey(className)) {
+                        parameters.add(instances.get(className));
+                        continue;
+                    }
+                    Object instance = Injector.initialize(className, implementationClassNames);
+                    instances.put(className, instance);
                     parameters.add(Injector.initialize(className, implementationClassNames));
                 }
             }
