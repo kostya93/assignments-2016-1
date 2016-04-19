@@ -7,7 +7,6 @@ import java.util.*;
 public final class Injector {
     private static Map<String, Object> instances = new HashMap<>();
     private static HashSet<String> markGlobal = new HashSet<>();
-    private static String rootClass = null;
 
     /**
      * Create and initialize object of `rootClassName` class using classes from
@@ -22,13 +21,13 @@ public final class Injector {
         Constructor c = aClass.getConstructors()[0];
         Class[] parameterTypes = c.getParameterTypes();
 
-        if (rootClass == null) {
-            rootClass = rootClassName;
-        }
-
         HashSet<String> markLocal = new HashSet<>();
 
         markGlobal.add(aClass.getCanonicalName());
+
+        if (instances.containsKey(aClass.getCanonicalName())) {
+            return instances.get(aClass.getCanonicalName());
+        }
 
 
         List<Object> parameters = new ArrayList<>();
