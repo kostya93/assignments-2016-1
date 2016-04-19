@@ -1,10 +1,8 @@
 package ru.spbau.mit;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 
 public final class Injector {
@@ -27,7 +25,7 @@ public final class Injector {
 
         for (Class param : parameterTypes) {
             boolean flag = false;
-            for(String className : implementationClassNames) {
+            for (String className : implementationClassNames) {
                 Class tmp = Class.forName(className);
                 if (param.isAssignableFrom(tmp)) {
                     if (flag) {
